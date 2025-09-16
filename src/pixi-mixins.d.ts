@@ -1,5 +1,6 @@
 import type { BGM, SFX } from "./engine/audio/audio";
 import type { Navigation } from "./engine/navigation/navigation";
+import type { UI } from "./engine/ui/ui";
 import type {
   CreationResizePluginOptions,
   DeepRequired,
@@ -15,6 +16,7 @@ declare global {
         setMasterVolume: (volume: number) => void;
       };
       navigation: Navigation;
+      ui: UI;
     }
     // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     interface ApplicationOptions extends CreationResizePluginOptions {}

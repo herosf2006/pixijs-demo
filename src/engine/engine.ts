@@ -14,12 +14,15 @@ import manifest from "../manifest.json";
 import { CreationAudioPlugin } from "./audio/AudioPlugin";
 import { CreationNavigationPlugin } from "./navigation/NavigationPlugin";
 import { CreationResizePlugin } from "./resize/ResizePlugin";
+import { CreationUIPlugin } from "./ui/UIPlugin";
 import { getResolution } from "./utils/getResolution";
+
 
 extensions.remove(ResizePlugin);
 extensions.add(CreationResizePlugin);
 extensions.add(CreationAudioPlugin);
 extensions.add(CreationNavigationPlugin);
+extensions.add(CreationUIPlugin);
 
 /**
  * The main creation engine class.

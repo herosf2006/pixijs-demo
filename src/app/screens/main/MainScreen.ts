@@ -17,69 +17,74 @@ export class MainScreen extends Container {
   public static assetBundles = ["main"];
 
   public mainContainer: Container;
-  private pauseButton: FancyButton;
-  private settingsButton: FancyButton;
-  private addButton: FancyButton;
-  private removeButton: FancyButton;
-  private bouncer: Bouncer;
+  public paletteContainer: Container;
+  public canvasContainer: Container;
+
+  // private pauseButton: FancyButton;
+  // private settingsButton: FancyButton;
+  // private addButton: FancyButton;
+  // private removeButton: FancyButton;
+  // private bouncer: Bouncer;
   private paused = false;
 
   constructor() {
     super();
 
     this.mainContainer = new Container();
-    this.addChild(this.mainContainer);
-    this.bouncer = new Bouncer();
+    this.paletteContainer = new Container();
+    this.canvasContainer = new Container();
+    // this.addChild(this.mainContainer);
+    // this.bouncer = new Bouncer();
 
-    const buttonAnimations = {
-      hover: {
-        props: {
-          scale: { x: 1.1, y: 1.1 },
-        },
-        duration: 100,
-      },
-      pressed: {
-        props: {
-          scale: { x: 0.9, y: 0.9 },
-        },
-        duration: 100,
-      },
-    };
-    this.pauseButton = new FancyButton({
-      defaultView: "icon-pause.png",
-      anchor: 0.5,
-      animations: buttonAnimations,
-    });
-    this.pauseButton.onPress.connect(() =>
-      engine().navigation.presentPopup(PausePopup),
-    );
-    this.addChild(this.pauseButton);
+    // const buttonAnimations = {
+    //   hover: {
+    //     props: {
+    //       scale: { x: 1.1, y: 1.1 },
+    //     },
+    //     duration: 100,
+    //   },
+    //   pressed: {
+    //     props: {
+    //       scale: { x: 0.9, y: 0.9 },
+    //     },
+    //     duration: 100,
+    //   },
+    // };
+    // this.pauseButton = new FancyButton({
+    //   defaultView: "icon-pause.png",
+    //   anchor: 0.5,
+    //   animations: buttonAnimations,
+    // });
+    // this.pauseButton.onPress.connect(() =>
+    //   engine().navigation.presentPopup(PausePopup),
+    // );
+    // this.addChild(this.pauseButton);
 
-    this.settingsButton = new FancyButton({
-      defaultView: "icon-settings.png",
-      anchor: 0.5,
-      animations: buttonAnimations,
-    });
-    this.settingsButton.onPress.connect(() =>
-      engine().navigation.presentPopup(SettingsPopup),
-    );
-    this.addChild(this.settingsButton);
+    // this.settingsButton = new FancyButton({
+    //   defaultView: "icon-settings.png",
+    //   anchor: 0.5,
+    //   animations: buttonAnimations,
+    // });
+    // this.settingsButton.onPress.connect(() =>
+    //   engine().navigation.presentPopup(SettingsPopup),
+    // );
+    // this.addChild(this.settingsButton);
 
-    this.addButton = new Button({
-      text: "Add",
-      width: 175,
-      height: 110,
-    });
-    this.addButton.onPress.connect(() => this.bouncer.add());
-    this.addChild(this.addButton);
+    // this.addButton = new Button({
+    //   text: "Add",
+    //   width: 175,
+    //   height: 110,
+    // });
+    // this.addButton.onPress.connect(() => this.bouncer.add());
+    // this.addChild(this.addButton);
 
-    this.removeButton = new Button({
-      text: "Remove",
-      width: 175,
-      height: 110,
-    });
-    this.removeButton.onPress.connect(() => this.bouncer.remove());
-    this.addChild(this.removeButton);
+    // this.removeButton = new Button({
+    //   text: "Remove",
+    //   width: 175,
+    //   height: 110,
+    // });
+    // this.removeButton.onPress.connect(() => this.bouncer.remove());
+    // this.addChild(this.removeButton);
   }
 
   /** Prepare the screen just before showing */
@@ -89,7 +94,7 @@ export class MainScreen extends Container {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public update(_time: Ticker) {
     if (this.paused) return;
-    this.bouncer.update();
+    // this.bouncer.update();
   }
 
   /** Pause gameplay - automatically fired when a popup is presented */
@@ -114,16 +119,22 @@ export class MainScreen extends Container {
 
     this.mainContainer.x = centerX;
     this.mainContainer.y = centerY;
-    this.pauseButton.x = 30;
-    this.pauseButton.y = 30;
-    this.settingsButton.x = width - 30;
-    this.settingsButton.y = 30;
-    this.removeButton.x = width / 2 - 100;
-    this.removeButton.y = height - 75;
-    this.addButton.x = width / 2 + 100;
-    this.addButton.y = height - 75;
 
-    this.bouncer.resize(width, height);
+    this.paletteContainer.x = centerX;
+    this.paletteContainer.y = centerY;
+    this.canvasContainer.x = centerX;
+    this.canvasContainer.y = centerY;
+
+    // this.pauseButton.x = 30;
+    // this.pauseButton.y = 30;
+    // this.settingsButton.x = width - 30;
+    // this.settingsButton.y = 30;
+    // this.removeButton.x = width / 2 - 100;
+    // this.removeButton.y = height - 75;
+    // this.addButton.x = width / 2 + 100;
+    // this.addButton.y = height - 75;
+
+    // this.bouncer.resize(width, height);
   }
 
   /** Show screen with animations */
