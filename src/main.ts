@@ -1,3 +1,4 @@
+import { Graphics } from "pixi.js";
 import { setEngine } from "./app/getEngine";
 import { LoadScreen } from "./app/screens/LoadScreen";
 import { MainScreen } from "./app/screens/main/MainScreen";
@@ -17,7 +18,7 @@ setEngine(engine);
 (async () => {
   // Initialize the creation engine instance
   await engine.init({
-    background: "#563d88ff",
+    background: "#EAD8B1",
     resizeOptions: { minWidth: 768, minHeight: 1024, letterbox: false },
   });
 
@@ -26,6 +27,6 @@ setEngine(engine);
 
   // Show the load screen
   await engine.ui.showScreen(LoadScreen);
-  // Show the main screen once the load screen is dismissed
+  // this.app.stage.addChild(grid);
   await engine.ui.showScreen(MainScreen);
 })();
