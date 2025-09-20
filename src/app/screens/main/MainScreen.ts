@@ -7,9 +7,7 @@ import { Container, Graphics } from "pixi.js";
 import { engine } from "../../getEngine";
 import { PausePopup } from "../../popups/PausePopup";
 import { SettingsPopup } from "../../popups/SettingsPopup";
-import { Button } from "../../ui/Button";
-
-import { Bouncer } from "./Bouncer";
+import { Palette } from "./Palette";
 
 /** The screen that holds the app */
 export class MainScreen extends Container {
@@ -17,10 +15,10 @@ export class MainScreen extends Container {
   public static assetBundles = ["main"];
 
   public mainContainer: Container;
-  public paletteContainer: Container;
+  public paletteContainer: Palette;
   public canvasContainer: Container;
+  public paintTubeContainer : Container;
 
-  private pauseButton: FancyButton;
   private settingsButton: FancyButton;
   private bgGrid: Graphics;
   private bgPalette: Graphics;
@@ -33,9 +31,11 @@ export class MainScreen extends Container {
   constructor() {
     super();
 
-    this.mainContainer = new Container();
-    this.paletteContainer = new Container();
-    this.canvasContainer = new Container();
+    this.mainContainer      = new Container();
+    this.paletteContainer   = new Palette();
+    this.canvasContainer    = new Container();
+    this.paintTubeContainer = new Container();
+
     this.addChild(this.mainContainer);
 
     const buttonAnimations = {
@@ -52,15 +52,6 @@ export class MainScreen extends Container {
         duration: 100,
       },
     };
-    this.pauseButton = new FancyButton({
-      defaultView: "icon-pause.png",
-      anchor: 0.5,
-      animations: buttonAnimations,
-    });
-    this.pauseButton.onPress.connect(() =>
-      engine().navigation.presentPopup(PausePopup),
-    );
-    this.addChild(this.pauseButton);
 
     this.settingsButton = new FancyButton({
       defaultView: "icon-settings.png",
@@ -106,24 +97,9 @@ export class MainScreen extends Container {
     const centerX = width * 0.5;
     const centerY = height * 0.5;
 
-    this.paletteContainer.x = centerX;
-    this.paletteContainer.y = centerY;
     this.canvasContainer.x = centerX;
     this.canvasContainer.y = centerY;
 
-    // Create a rectangle
-    const bgPalette = new Graphics()
-      .rect(0, height * (1/12), width * 0.5, height * (11/12))
-      .fill(0x114232);
-    this.mainContainer.addChild(bgPalette);
-
-    const bgCanvas = new Graphics()
-      .rect(width * 0.5, height * (1/12), width * 0.5, height * (11/12))
-      .fill(0x87A922);
-    this.mainContainer.addChild(bgCanvas);
-
-    this.pauseButton.x = 30;
-    this.pauseButton.y = 30;
     this.settingsButton.x = width - 30;
     this.settingsButton.y = 30;
 
@@ -136,12 +112,21 @@ export class MainScreen extends Container {
     }
     this.bgGrid.stroke({ width: 1, color: 0x6A9AB0 });
 
-    // this.removeButton.x = width / 2 - 100;
-    // this.removeButton.y = height - 75;
-    // this.addButton.x = width / 2 + 100;
-    // this.addButton.y = height - 75;
+    this.paletteContainer.x = 0;
+    this.paletteContainer.y = height * (1/12);
+    this.paletteContainer.resize(width * (1/2), height * (11/12));
+    this.mainContainer.addChild(this.paletteContainer);
 
-    // this.bouncer.resize(width, height);
+    // Create a rectangle
+    // const bgPalette = new Graphics()
+    //   .rect(0, height * (1/12), width * 0.5, height * (11/12))
+    //   .fill(0x114232);
+    // this.mainContainer.addChild(bgPalette);
+
+    // const bgCanvas = new Graphics()
+    //   .rect(width * 0.5, height * (1/12), width * 0.5, height * (11/12))
+    //   .fill(0x87A922);
+    // this.mainContainer.addChild(bgCanvas);
   }
 
   /** Show screen with animations */
@@ -149,7 +134,6 @@ export class MainScreen extends Container {
     // engine().audio.bgm.play("main/sounds/bgm-main.mp3", { volume: 0.5 });
 
     const elementsToAnimate = [
-      this.pauseButton,
       this.settingsButton,
       // this.addButton,
       // this.removeButton,
