@@ -8,6 +8,8 @@ import { engine } from "../../getEngine";
 import { PausePopup } from "../../popups/PausePopup";
 import { SettingsPopup } from "../../popups/SettingsPopup";
 import { Palette } from "./Palette";
+import { Canvas } from "./Canvas";
+import { PaintTube } from "./PaintTube";
 
 /** The screen that holds the app */
 export class MainScreen extends Container {
@@ -15,26 +17,23 @@ export class MainScreen extends Container {
   public static assetBundles = ["main"];
 
   public mainContainer: Container;
+
   public paletteContainer: Palette;
-  public canvasContainer: Container;
-  public paintTubeContainer : Container;
+  public canvasContainer: Canvas;
+  public paintTubeContainer: PaintTube;
 
   private settingsButton: FancyButton;
   private bgGrid: Graphics;
-  private bgPalette: Graphics;
-  private bgCanvas: Graphics;
-  // private addButton: FancyButton;
-  // private removeButton: FancyButton;
-  // private bouncer: Bouncer;
+
   private paused = false;
 
   constructor() {
     super();
 
-    this.mainContainer      = new Container();
-    this.paletteContainer   = new Palette();
-    this.canvasContainer    = new Container();
-    this.paintTubeContainer = new Container();
+    this.mainContainer = new Container();
+    this.paletteContainer = new Palette();
+    this.canvasContainer = new Canvas();
+    this.paintTubeContainer = new PaintTube();
 
     this.addChild(this.mainContainer);
 
@@ -59,12 +58,16 @@ export class MainScreen extends Container {
       animations: buttonAnimations,
     });
     this.settingsButton.onPress.connect(() =>
-      engine().navigation.presentPopup(SettingsPopup),
+      engine().navigation.presentPopup(SettingsPopup)
     );
     this.addChild(this.settingsButton);
 
     this.bgGrid = new Graphics();
     this.mainContainer.addChild(this.bgGrid);
+
+    this.mainContainer.addChild(this.paletteContainer);
+    this.mainContainer.addChild(this.canvasContainer);
+    this.mainContainer.addChild(this.paintTubeContainer);
   }
 
   /** Prepare the screen just before showing */
@@ -94,14 +97,8 @@ export class MainScreen extends Container {
 
   /** Resize the screen, fired whenever window size changes */
   public resize(width: number, height: number) {
-    const centerX = width * 0.5;
-    const centerY = height * 0.5;
-
-    this.canvasContainer.x = centerX;
-    this.canvasContainer.y = centerY;
-
-    this.settingsButton.x = width - 30;
-    this.settingsButton.y = 30;
+    this.settingsButton.x = width - (((height * 1) / 2) * 1) / 12;
+    this.settingsButton.y = (((height * 1) / 2) * 1) / 12;
 
     const gridSize = 50;
     for (let x = 0; x < width; x += gridSize) {
@@ -110,23 +107,19 @@ export class MainScreen extends Container {
     for (let y = 0; y < height; y += gridSize) {
       this.bgGrid.moveTo(0, y).lineTo(width, y);
     }
-    this.bgGrid.stroke({ width: 1, color: 0x6A9AB0 });
+    this.bgGrid.stroke({ width: 1, color: 0x6a9ab0 });
 
     this.paletteContainer.x = 0;
-    this.paletteContainer.y = height * (1/12);
-    this.paletteContainer.resize(width * (1/2), height * (11/12));
-    this.mainContainer.addChild(this.paletteContainer);
+    this.paletteContainer.y = height * (1 / 12);
+    this.paletteContainer.resize(width * (1 / 2), height * (11 / 12));
 
-    // Create a rectangle
-    // const bgPalette = new Graphics()
-    //   .rect(0, height * (1/12), width * 0.5, height * (11/12))
-    //   .fill(0x114232);
-    // this.mainContainer.addChild(bgPalette);
+    this.canvasContainer.x = width * (1 / 2);
+    this.canvasContainer.y = height * (1 / 12);
+    this.canvasContainer.resize(width * (1 / 2), height * (11 / 12));
 
-    // const bgCanvas = new Graphics()
-    //   .rect(width * 0.5, height * (1/12), width * 0.5, height * (11/12))
-    //   .fill(0x87A922);
-    // this.mainContainer.addChild(bgCanvas);
+    this.paintTubeContainer.x = 0;
+    this.paintTubeContainer.y = 0;
+    this.paintTubeContainer.resize(width, height * (1 / 12));
   }
 
   /** Show screen with animations */
@@ -145,7 +138,7 @@ export class MainScreen extends Container {
       finalPromise = animate(
         element,
         { alpha: 1 },
-        { duration: 0.3, delay: 0.75, ease: "backOut" },
+        { duration: 0.3, delay: 0.75, ease: "backOut" }
       );
     }
 

@@ -5,7 +5,7 @@ import { engine } from "../../getEngine";
 import { PausePopup } from "../../popups/PausePopup";
 
 /** The screen that holds the app */
-export class Palette extends Container {
+export class Canvas extends Container {
   private bg: Graphics;
 
   private paused = false;
@@ -43,7 +43,7 @@ export class Palette extends Container {
 
   /** Resize the screen, fired whenever window size changes */
   public resize(width: number, height: number) {
-    this.bg.rect(0, 0, width, height).fill(0xff714b);
+    this.bg.rect(0, 0, width, height).fill(0xc71e64);
   }
 
   /** Show screen with animations */
