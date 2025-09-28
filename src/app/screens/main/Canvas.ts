@@ -1,4 +1,4 @@
-import type { Ticker } from "pixi.js";
+import type { FillInput, Ticker } from "pixi.js";
 import { Container, Graphics } from "pixi.js";
 
 import { engine } from "../../getEngine";
@@ -7,6 +7,8 @@ import { PausePopup } from "../../popups/PausePopup";
 /** The screen that holds the app */
 export class Canvas extends Container {
   private bg: Graphics;
+
+  private bgColor: FillInput | undefined;
 
   private paused = false;
 
@@ -43,7 +45,12 @@ export class Canvas extends Container {
 
   /** Resize the screen, fired whenever window size changes */
   public resize(width: number, height: number) {
-    this.bg.rect(0, 0, width, height).fill(0xc71e64);
+    this.bg.rect(0, 0, width, height).fill(this.bgColor);
+  }
+
+  public setBGColor(color: FillInput | undefined) {
+    this.bgColor = color;
+    this.bg.clear().fill(color);
   }
 
   /** Show screen with animations */

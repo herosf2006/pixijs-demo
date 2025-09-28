@@ -18,8 +18,8 @@ export class MainScreen extends Container {
 
   public mainContainer: Container;
 
-  public paletteContainer: Palette;
-  public canvasContainer: Canvas;
+  public paletteContainer  : Palette;
+  public canvasContainer   : Canvas;
   public paintTubeContainer: PaintTube;
 
   private settingsButton: FancyButton;
@@ -31,8 +31,9 @@ export class MainScreen extends Container {
     super();
 
     this.mainContainer = new Container();
-    this.paletteContainer = new Palette();
-    this.canvasContainer = new Canvas();
+
+    this.paletteContainer   = new Palette();
+    this.canvasContainer    = new Canvas();
     this.paintTubeContainer = new PaintTube();
 
     this.addChild(this.mainContainer);
@@ -68,6 +69,10 @@ export class MainScreen extends Container {
     this.mainContainer.addChild(this.paletteContainer);
     this.mainContainer.addChild(this.canvasContainer);
     this.mainContainer.addChild(this.paintTubeContainer);
+
+    this.paintTubeContainer.setBGColor(0x468A9A);
+    this.paletteContainer.setBGColor(0x541212);
+    this.canvasContainer.setBGColor(0x0F0E0E);
   }
 
   /** Prepare the screen just before showing */
@@ -109,17 +114,18 @@ export class MainScreen extends Container {
     }
     this.bgGrid.stroke({ width: 1, color: 0x6a9ab0 });
 
-    this.paletteContainer.x = 0;
-    this.paletteContainer.y = height * (1 / 12);
-    this.paletteContainer.resize(width * (1 / 2), height * (11 / 12));
-
-    this.canvasContainer.x = width * (1 / 2);
-    this.canvasContainer.y = height * (1 / 12);
-    this.canvasContainer.resize(width * (1 / 2), height * (11 / 12));
-
     this.paintTubeContainer.x = 0;
     this.paintTubeContainer.y = 0;
     this.paintTubeContainer.resize(width, height * (1 / 12));
+
+    this.paletteContainer.x = 0;
+    this.paletteContainer.y = height * (1 / 12);
+    this.paletteContainer.resize(width * (4 / 12), height * (11 / 12));
+
+    this.canvasContainer.x = width * (4 / 12);
+    this.canvasContainer.y = height * (1 / 12);
+    this.canvasContainer.resize(width * (8 / 12), height * (11 / 12));
+
   }
 
   /** Show screen with animations */
